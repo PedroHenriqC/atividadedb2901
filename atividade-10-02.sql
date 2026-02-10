@@ -1,5 +1,7 @@
 create database db290126;
 use db290126;
+
+
 /*Tabela de produto*/
 
 /*Atividade 1*/
@@ -138,14 +140,132 @@ delete from tabparceiros where cidadecliente = 'rio de janeiro';
 
 
 /*Atividade 27*/
+select p.nomeCliente as "Cliente", pr.descricaoProduto as "Produto" from tabVendas v 
+    inner join tabParceiros p on v.idCliente = p.idCliente inner join tabProduto pr on v.idProduto = pr.idProduto where p.idCliente = 1;
+
+
+/*Atividade 28*/
+alter table tabProduto drop column estoqueProduto;
 
 
 /*Atividade 29*/
+/*criando tabela de teste*/
+create table tabTestes (
+    idTeste int not null auto_increment,
+    descricaoTeste varchar(45),
+    constraint pkidTeste primary key (idTeste));
 
+/*excluir tabela de teste*/
+drop table tabTestes;
 
 /*Atividade 30*/
+select  p.nomeCliente as "Cliente"from tabVendas v 
+inner join tabParceiros p on v.idCliente = p.idCliente inner join tabProduto pr 
+on v.idProduto = pr.idProduto where pr.descricaoProduto = 'Adubo';
 
 
-show tables;
-describe tabProduto;
-select *from tabVendas;
+
+/*Atividade 31*/
+insert into tabProduto (descricaoProduto, precoProduto) values ('Controle DualSense PS5', 449.90);
+insert into tabProduto (descricaoProduto, precoProduto) values ('Headset Gamer HyperX', 699.90);
+insert into tabProduto (descricaoProduto, precoProduto) values ('Teclado Mecânico Gamer RGB', 899.90);
+
+
+
+/*Atividade 32*/
+
+select *from tabProduto where precoProduto in (150.00, 200.00);
+
+/*Atividade 33*/
+update tabProduto set descricaoProduto = 'Kit de Ferramentas SENAI' where idProduto = 2;
+
+/*Atividade 34*/
+/*Adcionando um campo de data de Vendas */
+alter table tabVendas add column dataVenda date;
+
+/*Atualizando com uma data na tabela de vendas*/
+update tabVendas set dataVenda = '2026-02-10' where idVendas = 1;
+
+/*listando o nome de todos os produtos e o nome dos clientes*/
+select pr.descricaoProduto as "Produto", p.nomeCliente as "Cliente"
+from tabVendas v inner join tabProduto pr on v.idProduto = pr.idProduto inner join tabParceiros p 
+on v.idCliente = p.idCliente where v.dataVenda = curdate();
+
+
+/*Atividade 35*/
+alter table tabProduto add column categoria varchar(45);
+
+
+
+/*Atividade 36*/
+
+update tabProduto set categoria = 'Eletrônicos'where precoProduto > 500.00;
+
+/*Atividade 37*/
+select * from tabParceiros where cidadeCliente != 'Muriaé';
+
+
+/*Atividade 38*/
+delete from tabVendas where idCliente = 2;
+
+
+/*Atividade 39*/
+alter table tabParceiros rename column cidadeCliente to municipio;
+
+
+/*Atividade 40*/
+select  p.nomeCliente as "Cliente" from tabVendas v inner join tabParceiros p 
+on v.idCliente = p.idCliente inner join tabProduto pr on v.idProduto = pr.idProduto where pr.categoria = 'Eletrônicos';
+
+
+/*Atividade 41*/
+
+create table tabfornecedores (
+    idFornecedor int not null auto_increment,
+    nomeFornecedor varchar(45),
+    cnpjFornecedor varchar(45),
+    constraint pkFornecedor primary key (idFornecedor));
+
+
+/*Atividade 42*/
+insert into tabfornecedores (nomeFornecedor, cnpjFornecedor)values('Sony Brasil', '12.345 678 0001 99');
+insert into tabfornecedores (nomeFornecedor, cnpjFornecedor)values('Microsoft Brasil', '98.765 432 0001 88');
+
+
+/*Atividade 43*/
+alter table tabProduto add column fornecedor_id int;
+
+
+/*Atividade 44*/
+update tabProduto set fornecedor_id = 1;
+
+
+/*Atividade 45*/
+select p.descricaoProduto as "Produto", f.nomeFornecedor as "Fornecedor"
+from tabProduto p inner join tabfornecedores f on p.fornecedor_id = f.idFornecedor;
+
+
+
+/*Atividade 46*/
+
+select *from tabParceiros order by nomeCliente desc;
+
+
+/*Atividade 47*/
+update tabProduto set precoProduto = precoProduto - 5.00 where categoria = 'Eletrônicos';
+
+
+/*Atividade 48*/
+delete from tabProduto where categoria is null;
+
+
+/*Atividade 49*/
+drop table tabfornecedores;
+
+
+/*Atividade 50*/
+select c.nomeCliente as "Cliente", p.descricaoProduto as "Produto", p.precoProduto as "Preço"
+from tabVendas v inner join tabParceiros c on v.idCliente = c.idCliente inner join tabProduto p on v.idProduto = p.idProduto;
+
+
+
